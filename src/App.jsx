@@ -183,7 +183,7 @@ export default function App() {
 
           {/* Final Box */}
           {showFinalBox && (
-            <div style={{
+            <div className="finalbox" style={{
               position: 'absolute',
               top: '50%',
               left: '50%',
@@ -202,7 +202,7 @@ export default function App() {
               boxShadow: '0 0 20px #C57175aa'
             }} >
               <p style={{ fontSize: '2rem', margin: '0 0 1rem' }}>Mehmet Efe Öçal</p>
-              <p>Let’s build the future together!</p>
+              <p className='sub'>Let’s build the future together!</p>
               <div style={{
                 border: '1px solid #C57175',
                 backdropFilter: 'blur(4px)',

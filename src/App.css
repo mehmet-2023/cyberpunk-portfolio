@@ -1,8 +1,13 @@
 @media (max-width: 768px) {
-    .project-item {
-      transform: scale(1);
-    }
-    .grid{
-  gap:1px !important;
+  .project-item {
+    transform: scale(1);
+  }
+
+  .grid {
+    gap: 1px !important;
+  }
+
+  .sub {
+    display: none;
+  }
 }
-  }                
