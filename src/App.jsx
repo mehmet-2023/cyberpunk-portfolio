@@ -79,7 +79,7 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [showFinalBox, setShowFinalBox] = useState(false);
-  const [showPopup, setShowPopup] = useState(null); // Popup'ı göstermek için
+  const [showPopup, setShowPopup] = useState(null); 
   const audioRef = useRef(null);
   const finalbox_shown = useRef(false);
   useEffect(() => {
@@ -101,7 +101,7 @@ export default function App() {
       setShowFinalBox(true);
       finalbox_shown.current = true;
     }
-  }, [elapsed]); // sadece elapsed değiştiğinde tetiklenmeli
+  }, [elapsed]); 
 
   const handleInteraction = () => {
     if (audioRef.current && !hasInteracted) {
@@ -119,15 +119,14 @@ export default function App() {
 
   const handleProjectClick = (project) => {
     setShowPopup(project);
-    setShowFinalBox(false); // Popup açıldığında FinalBox kapanacak
+    setShowFinalBox(false);
   };
 
   const closePopup = () => {
     setShowPopup(null);
-    setShowFinalBox(true); // Popup kapandığında FinalBox geri gelecek
+    setShowFinalBox(true); 
   };
 
-  // Grid dinamik sütun sayısını hesaplayan fonksiyon
   const getGridColumns = () => {
     const isMobile = window.innerWidth <= 768;
     const projectCount = projects.length;
@@ -170,7 +169,6 @@ export default function App() {
             <ambientLight intensity={0.4} />
             <directionalLight castShadow position={[2, 1, 3]} intensity={1.2} />
             <CityScene />
-            <Stats />
           </Canvas>
 
           {currentMessageIndex !== -1 && messages[currentMessageIndex] && (
