@@ -61,7 +61,7 @@ const projects = [
     imageUrl: "/images/2024.png",
     description: "I participated in the Cezeri Başakşehir Off-Season competition with the 76111 2024 Robot and we received the team spirit award and the Dean's List award in this competition.",
     link: "https://www.thebluealliance.com/team/7611/2024",
-    color: "#8a00c4"
+    color: "#ff8800"
   },
   {
     title: "ICEBERG - REEFSCAPE SEASON",
