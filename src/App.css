@@ -10,4 +10,8 @@
   .sub {
     display: none;
   }
+  .finalbox{
+    margin-bottom: 10px;
+    margin-top:10px;
+  }
 }
