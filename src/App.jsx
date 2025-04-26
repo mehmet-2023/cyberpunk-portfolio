@@ -131,13 +131,13 @@ export default function App() {
   const getGridColumns = () => {
     const isMobile = window.innerWidth <= 768;
     const projectCount = projects.length;
-  
+
     if (isMobile) return 'repeat(2, 1fr)';
     if (projectCount <= 2) return 'repeat(2, 1fr)';
     if (projectCount <= 6) return 'repeat(3, 1fr)';
     return 'repeat(4, 1fr)';
   };
-  
+
 
   return (
     <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: '#000', position: 'relative' }}>
@@ -183,24 +183,30 @@ export default function App() {
 
           {/* Final Box */}
           {showFinalBox && (
-            <div className="finalbox" style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              backgroundColor: 'rgba(18, 18, 18, 0.8)',
-              border: '2px solid #C57175',
-              borderRadius: '16px',
-              padding: '2rem',
-              maxWidth: '90%',
-              width: '41%',
-              textAlign: 'center',
-              color: '#fff',
-              fontSize: '1.2rem',
-              zIndex: 10,
-              backdropFilter: 'blur(4px)',
-              boxShadow: '0 0 20px #C57175aa'
-            }} >
+            <div
+              className="finalbox"
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                backgroundColor: 'rgba(18, 18, 18, 0.8)',
+                border: '2px solid #C57175',
+                borderRadius: '16px',
+                padding: '2rem',
+                maxWidth: '500px',
+                textAlign: 'center',
+                color: '#fff',
+                fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
+                zIndex: 10,
+                backdropFilter: 'blur(8px)',
+                boxShadow: '0 0 30px #C57175aa',
+                overflowWrap: 'break-word',
+                wordWrap: 'break-word',
+                maxHeight: "110vh",
+              }}
+            >
+
               <p style={{ fontSize: '2rem', margin: '0 0 1rem' }}>Mehmet Efe Öçal</p>
               <p className='sub'>Let’s build the future together!</p>
               <div style={{
@@ -213,12 +219,14 @@ export default function App() {
               {/* Proje Galerisi */}
               <div className="grid" style={{
                 display: 'grid',
-                gridTemplateColumns: getGridColumns(), 
+                gridTemplateColumns: getGridColumns(),
                 gap: '20px',
                 marginTop: '20px',
-                gridAutoRows: 'minmax(100px, auto)', // Dinamik yükseklik
-                maxWidth: '1200px', // Max genişlik
+                maxWidth: '1200px',
                 margin: '0 auto',
+                padding: '0 1rem',
+                width: "90%",
+                height: "45%"
               }}>
                 {projects.map((project, index) => (
                   <div
@@ -233,9 +241,15 @@ export default function App() {
                       transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                       boxShadow: `0 0 15px ${project.color}`,
                       backgroundColor: '#000',
-                      transition: 'transform 0.3s ease',
-                    }} className="project-item"
-                    >
+                      aspectRatio: '1/1',
+                      height: 'auto',
+                      width: "%30",
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                    className="project-item"
+                  >
                     <img src={project.imageUrl} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     <div
                       style={{
