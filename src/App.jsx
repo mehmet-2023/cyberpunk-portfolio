@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { Stats } from '@react-three/drei';
 import CityScene from './components/CityScene';
 import MessageOverlay from './components/MessageOverlay';
+import './App.css';
 
 const messages = [
   { text: "FRC Software Developer", time: 1, duration: 4 },
@@ -128,11 +129,15 @@ export default function App() {
 
   // Grid dinamik sütun sayısını hesaplayan fonksiyon
   const getGridColumns = () => {
+    const isMobile = window.innerWidth <= 768;
     const projectCount = projects.length;
+  
+    if (isMobile) return 'repeat(2, 1fr)';
     if (projectCount <= 2) return 'repeat(2, 1fr)';
     if (projectCount <= 6) return 'repeat(3, 1fr)';
     return 'repeat(4, 1fr)';
   };
+  
 
   return (
     <div style={{ width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: '#000', position: 'relative' }}>
@@ -206,7 +211,7 @@ export default function App() {
               <br></br>
 
               {/* Proje Galerisi */}
-              <div style={{
+              <div className="grid" style={{
                 display: 'grid',
                 gridTemplateColumns: getGridColumns(), 
                 gap: '20px',
@@ -229,8 +234,8 @@ export default function App() {
                       boxShadow: `0 0 15px ${project.color}`,
                       backgroundColor: '#000',
                       transition: 'transform 0.3s ease',
-                    }}
-                  >
+                    }} className="project-item"
+                    >
                     <img src={project.imageUrl} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     <div
                       style={{
