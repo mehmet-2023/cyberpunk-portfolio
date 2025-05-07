@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Stats, FlyControls } from "@react-three/drei";
 import CityScene from "./components/CityScene";
+import LoadingScreen from "./components/LoadingScreen";
 import MessageOverlay from "./components/MessageOverlay";
 import "./App.css";
 
@@ -243,16 +244,22 @@ export default function App() {
               cameraRef.current = camera;
             }}
           >
-            <ambientLight intensity={0.4} />
-            <directionalLight castShadow position={[2, 1, 3]} intensity={1.2} />
-            <CityScene pauseMotion={exploreMode} />
-            {exploreMode && (
-              <FlyControls
-                movementSpeed={1}
-                rollSpeed={0.25}
-                dragToLook={false}
+            <Suspense fallback={<LoadingScreen />}>
+              <ambientLight intensity={0.4} />
+              <directionalLight
+                castShadow
+                position={[2, 1, 3]}
+                intensity={1.2}
               />
-            )}
+              <CityScene pauseMotion={exploreMode} />
+              {exploreMode && (
+                <FlyControls
+                  movementSpeed={1}
+                  rollSpeed={0.25}
+                  dragToLook={false}
+                />
+              )}
+            </Suspense>
           </Canvas>
           {exploreMode && (
             <button
