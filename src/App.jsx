@@ -35,7 +35,7 @@ const projects = [
     imageUrl: "/images/faster.png",
     description:
       "Faster: How fast are you? is an original game idea that has no other examples. The simple goal of the game is to click on a color other than the specified color. Since the game is fun and challenging to play, it has left a positive impact on users and the project continues.",
-    link: "https://fasterapp.glitch.me",
+    link: "https://fasterapp.vercel.app",
     color: "#FFD15D",
   },
   {
