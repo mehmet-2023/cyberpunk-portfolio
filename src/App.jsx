@@ -103,6 +103,7 @@ export default function App() {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [showFinalBox, setShowFinalBox] = useState(false);
   const [showPopup, setShowPopup] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const audioRef = useRef(null);
   const finalbox_shown = useRef(false);
   const [exploreMode, setExploreMode] = useState(false);
@@ -110,6 +111,14 @@ export default function App() {
   const cameraRef = useRef();
   const [tutorialIndex, setTutorialIndex] = useState(0);
   const [showTutorial, setShowTutorial] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (!ready || exploreMode) return;
@@ -133,7 +142,7 @@ export default function App() {
     const idx = messages.findIndex(
       (m) => elapsed >= m.time && elapsed <= m.time + m.duration
     );
-    setCurrentMessageIndex(idx);
+    setCurrentMessageIndex(idx !== -1 ? idx : null);
     const last = messages[messages.length - 1];
     if (
       elapsed > last.time + last.duration + 1 &&
@@ -143,7 +152,7 @@ export default function App() {
       setShowFinalBox(true);
       finalShown.current = true;
     }
-  }, [elapsed, ready, exploreMode, showFinalBox]);
+  }, [elapsed, ready, exploreMode]);
 
   const handleInteraction = () => {
     if (audioRef.current && !hasInteracted) {
@@ -170,10 +179,8 @@ export default function App() {
   };
 
   const getGridColumns = () => {
-    const isMobile = window.innerWidth <= 768;
+    if (isMobile) return "1fr";
     const projectCount = projects.length;
-
-    if (isMobile) return "repeat(2, 1fr)";
     if (projectCount <= 2) return "repeat(2, 1fr)";
     if (projectCount <= 6) return "repeat(3, 1fr)";
     return "repeat(4, 1fr)";
@@ -190,6 +197,8 @@ export default function App() {
       cameraRef.current.lookAt(0, 0, 0);
     }
     setExploreMode(false);
+    setShowTutorial(false);
+    setTutorialIndex(0);
     setShowFinalBox(true);
   };
 
@@ -252,7 +261,7 @@ export default function App() {
                 intensity={1.2}
               />
               <CityScene pauseMotion={exploreMode} />
-              {exploreMode && (
+              {exploreMode && !isMobile && (
                 <FlyControls
                   movementSpeed={1}
                   rollSpeed={0.25}
@@ -261,7 +270,7 @@ export default function App() {
               )}
             </Suspense>
           </Canvas>
-          {exploreMode && (
+          {exploreMode && !isMobile && (
             <button
               onClick={reopenFinalBox}
               style={{
@@ -289,88 +298,117 @@ export default function App() {
             />
           )}
 
-          {currentMessageIndex !== -1 && messages[currentMessageIndex] && (
+          {currentMessageIndex !== null && messages[currentMessageIndex] && (
             <MessageOverlay
+             utz
               key={currentMessageIndex}
               text={messages[currentMessageIndex].text}
               duration={messages[currentMessageIndex].duration}
             />
           )}
 
-          {/* Final Box */}
           {showFinalBox && (
             <div
               className="finalbox"
               style={{
                 position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                backgroundColor: "rgba(18, 18, 18, 0.8)",
-                border: "2px solid #C57175",
-                borderRadius: "16px",
-                padding: "2rem",
-                maxWidth: "500px",
-                textAlign: "center",
+                top: isMobile ? "0" : "50%",
+                left: isMobile ? "0" : "50%",
+                transform: isMobile ? "none" : "translate(-50%, -50%)",
+                background: isMobile
+                  ? "linear-gradient(180deg, rgba(18, 18, 18, 0.9), rgba(0, 0, 0, 0.95))"
+                  : "linear-gradient(135deg, rgba(18, 18, 18, 0.7), rgba(0, 0, 0, 0.9))",
+                border: isMobile ? "none" : "2px solid #33dac6",
+                borderRadius: isMobile ? "0" : "12px",
+                padding: isMobile ? "1rem 0" : "2rem",
+                width: isMobile ? "100vw" : "100%",
+                height: isMobile ? "100vh" : "auto",
+                maxWidth: isMobile ? "100vw" : "min(90vw, 1000px)",
                 color: "#fff",
-                fontSize: "clamp(1rem, 2.5vw, 1.2rem)",
+                fontSize: isMobile ? "clamp(1.2rem, 3vw, 1.4rem)" : "clamp(1rem, 2vw, 1.2rem)",
                 zIndex: 10,
-                backdropFilter: "blur(8px)",
-                boxShadow: "0 0 30px #C57175aa",
-                overflowWrap: "break-word",
-                wordWrap: "break-word",
-                maxHeight: "110vh",
+                backdropFilter: "blur(10px)",
+                boxShadow: isMobile ? "none" : "0 0 40px rgba(51, 218, 198, 0.5)",
+                animation: isMobile ? "fadeInMobile 1s ease-out" : "fadeIn 1s ease-out, neonPulse 3s infinite alternate",
+                overflowY: isMobile ? "auto" : "visible",
+                overflowX: "hidden",
+                boxSizing: "border-box",
               }}
             >
-              <p style={{ fontSize: "2rem", margin: "0 0 1rem" }}>
+              <style>
+                {`
+                  @keyframes fadeIn {
+                    from { opacity: 0; transform: translate(-50%, -60%); }
+                    to { opacity: 1; transform: translate(-50%, -50%); }
+                  }
+                  @keyframes fadeInMobile {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                  }
+                  @keyframes neonPulse {
+                    0% { box-shadow: 0 0 20px rgba(51, 218, 198, 0.3), 0 0 40px rgba(51, 218, 198, 0.2); }
+                    100% { box-shadow: 0 0 30px rgba(51, 218, 198, 0.6), 0 0 60px rgba(51, 218, 198, 0.4); }
+                  }
+                `}
+              </style>
+              <h1 style={{ fontSize: isMobile ? "clamp(2rem, 4vw, 2.5rem)" : "clamp(1.8rem, 3vw, 2.5rem)", margin: isMobile ? "0 0 1rem 1rem" : "0 0 1rem", textShadow: "0 0 10px #33dac6" }}>
                 Mehmet Efe Öçal
+              </h1>
+              <p style={{ fontSize: isMobile ? "clamp(1.2rem, 3vw, 1.4rem)" : "clamp(1rem, 2vw, 1.2rem)", opacity: 0.8, margin: isMobile ? "0 1rem 1rem" : "0 0 1rem" }}>
+                Let’s build the future together!
               </p>
-              <p className="sub">Let’s build the future together!</p>
               <div
                 style={{
-                  border: "1px solid #C57175",
-                  backdropFilter: "blur(4px)",
-                  boxShadow: "0 0 20px #C57175aa",
+                  borderTop: "1px solid #33dac6",
+                  margin: isMobile ? "0 1rem 1rem" : "1rem 0",
+                  boxShadow: "0 0 15px rgba(51, 218, 198, 0.3)",
                 }}
               ></div>
-              <br></br>
 
-              {/* Proje Galerisi */}
               <div
                 className="grid"
                 style={{
                   display: "grid",
                   gridTemplateColumns: getGridColumns(),
                   gap: "20px",
-                  marginTop: "20px",
-                  maxWidth: "1200px",
-                  margin: "0 auto",
-                  padding: "0 1rem",
-                  width: "90%",
-                  height: "45%",
+                  marginTop: "0.5rem",
+                  padding: isMobile ? "2.5rem" : "0 1rem",
                 }}
               >
                 {projects.map((project, index) => (
                   <div
                     key={index}
                     onClick={() => handleProjectClick(project)}
+                    className="project-item"
                     style={{
                       cursor: "pointer",
-                      borderRadius: "10px",
+                      borderRadius: "8px",
                       overflow: "hidden",
                       border: `2px solid ${project.color}`,
                       position: "relative",
                       transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      boxShadow: `0 0 15px ${project.color}`,
-                      backgroundColor: "#000",
-                      aspectRatio: "1/1",
-                      height: "auto",
-                      width: "%30",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      boxShadow: `0 0 10px ${project.color}`,
+                      backgroundColor: "rgba(0, 0, 0, 0.8)",
+                      maxWidth: "90%",
+                      margin: "0 auto",
+                      marginBottom: "0.5rem",
+                      maxHeight: "250px",
+                      minHeight: "250px",
+                      aspectRatio: "3/2",
+                      boxSizing: "border-box",
                     }}
-                    className="project-item"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "scale(1.05)";
+                      e.currentTarget.style.boxShadow = `0 0 25px ${project.color}`;
+                      e.currentTarget.querySelector(".project-title").style.display = "block";
+                      e.currentTarget.querySelector(".project-title").style.opacity = "1";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "scale(1)";
+                      e.currentTarget.style.boxShadow = `0 0 10px ${project.color}`;
+                      e.currentTarget.querySelector(".project-title").style.display = "none";
+                      e.currentTarget.querySelector(".project-title").style.opacity = "0";
+                    }}
                   >
                     <img
                       src={project.imageUrl}
@@ -379,52 +417,52 @@ export default function App() {
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
+                        objectPosition: "center",
+                        opacity: 0.85,
+                        display: "block",
+                        maxHeight: "300px",
+                        minHeight: "300px",
                       }}
                     />
                     <div
+                      className="project-title"
                       style={{
                         position: "absolute",
                         top: "50%",
                         left: "50%",
                         transform: "translate(-50%, -50%)",
-                        color: "#FFF",
-                        fontSize: "1.5rem",
+                        color: "#fff",
+                        fontSize: isMobile ? "clamp(1.4rem, 4vw, 1.6rem)" : "clamp(1rem, 1.8vw, 1.2rem)",
                         textAlign: "center",
+                        textShadow: `0 0 5px ${project.color}`,
                         display: "none",
                         opacity: 0,
                         transition: "opacity 0.3s ease",
+                        fontWeight: "bold",
+                        padding: isMobile ? "0 1rem" : "0",
                       }}
                     >
                       {project.title}
                     </div>
-                    <div
-                      onMouseEnter={(e) => {
-                        e.target.previousSibling.style.display = "block";
-                        e.target.previousSibling.style.opacity = 1;
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.previousSibling.style.display = "none";
-                        e.target.previousSibling.style.opacity = 0;
-                      }}
-                    />
                   </div>
                 ))}
               </div>
-              <br></br>
+
               <div
                 style={{
-                  border: "1px solid #C57175",
-                  backdropFilter: "blur(4px)",
-                  boxShadow: "0 0 20px #C57175aa",
+                  borderTop: "1px solid #33dac6",
+                  margin: isMobile ? "1rem 1rem 1.5rem" : "1.5rem 0",
+                  boxShadow: "0 0 15px rgba(51, 218, 198, 0.3)",
                 }}
               ></div>
-              <br></br>
+
               <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
-                  gap: "20px",
-                  marginTop: "20px",
+                  gap: "15px",
+                  flexWrap: "wrap",
+                  padding: isMobile ? "0 1rem" : "0",
                 }}
               >
                 <a
@@ -434,17 +472,16 @@ export default function App() {
                   style={{
                     border: "2px solid #fff",
                     borderRadius: "50%",
-                    padding: "12px",
-                    backgroundColor: "black",
-                    boxShadow: "0 0 15px #fff",
+                    padding: "10px",
+                    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    boxShadow: "0 0 10px #fff",
                     color: "#fff",
-                    transition: "all 0.3s ease",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
                   }}
+                  onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.2)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
                 >
-                  <i
-                    className="fab fa-github"
-                    style={{ fontSize: "1.5rem" }}
-                  ></i>
+                  <i className="fab fa-github" style={{ fontSize: isMobile ? "1.4rem" : "1.2rem" }}></i>
                 </a>
                 <a
                   href="https://www.linkedin.com/in/mehmet-efe-%C3%B6%C3%A7al-7b8925337/"
@@ -453,17 +490,16 @@ export default function App() {
                   style={{
                     border: "2px solid #0077b5",
                     borderRadius: "50%",
-                    padding: "12px",
-                    backgroundColor: "black",
-                    boxShadow: "0 0 15px #0077b5",
+                    padding: "10px",
+                    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    boxShadow: "0 0 10px #0077b5",
                     color: "#0077b5",
-                    transition: "all 0.3s ease",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
                   }}
+                  onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.2)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
                 >
-                  <i
-                    className="fab fa-linkedin-in"
-                    style={{ fontSize: "1.5rem" }}
-                  ></i>
+                  <i className="fab fa-linkedin-in" style={{ fontSize: isMobile ? "1.4rem" : "1.2rem" }}></i>
                 </a>
                 <a
                   href="https://www.instagram.com/mhmtt1520/"
@@ -472,77 +508,103 @@ export default function App() {
                   style={{
                     border: "2px solid #C13584",
                     borderRadius: "50%",
-                    padding: "12px",
-                    backgroundColor: "black",
-                    boxShadow: "0 0 15px #C13584",
+                    padding: "10px",
+                    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    boxShadow: "0 0 10px #C13584",
                     color: "#C13584",
-                    transition: "all 0.3s ease",
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
                   }}
+                  onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.2)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
                 >
-                  <i
-                    className="fab fa-instagram"
-                    style={{ fontSize: "1.5rem" }}
-                  ></i>
+                  <i className="fab fa-instagram" style={{ fontSize: isMobile ? "1.4rem" : "1.2rem" }}></i>
                 </a>
-                <button
-                  onClick={startTutorial}
-                  className="start"
-                  style={{
-                    padding: "10px 20px",
-                    backgroundColor: "#33dac6",
-                    border: "none",
-                    borderRadius: "8px",
-                    color: "#fff",
-                    boxShadow: "0 0 10px #33dac688",
-                    cursor: "pointer",
-                    zIndex: 1000,
-                  }}
-                >
-                  City Tour🚁
-                </button>
+                {!isMobile && (
+                  <button
+                    onClick={startTutorial}
+                    style={{
+                      padding: "8px 20px",
+                      backgroundColor: "#33dac6",
+                      border: "none",
+                      borderRadius: "6px",
+                      color: "#fff",
+                      boxShadow: "0 0 10px rgba(51, 218, 198, 0.5)",
+                      cursor: "pointer",
+                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                  >
+                    City Tour 🚁
+                  </button>
+                )}
               </div>
             </div>
           )}
 
-          {/* Popup */}
           {showPopup && (
             <div
               style={{
                 position: "fixed",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                backgroundColor: "rgba(18, 18, 18, 0.8)",
-                padding: "2rem",
-                borderRadius: "16px",
-                width: "80%",
-                maxWidth: "50%",
+                top: isMobile ? "0" : "50%",
+                left: isMobile ? "0" : "50%",
+                transform: isMobile ? "none" : "translate(-50%, -50%)",
+                background: isMobile
+                  ? "linear-gradient(180deg, rgba(18, 18, 18, 0.9), rgba(0, 0, 0, 0.95))"
+                  : "linear-gradient(135deg, rgba(18, 18, 18, 0.7), rgba(0, 0, 0, 0.9))",
+                padding: isMobile ? "1rem" : "2rem",
+                borderRadius: isMobile ? "0" : "12px",
+                width: isMobile ? "100vw" : "min(80vw, 600px)",
+                height: isMobile ? "100vh" : "auto",
                 zIndex: 15,
                 textAlign: "center",
                 color: "#fff",
-                boxShadow: `0 0 20px ${showPopup.color}`,
-                border: `2px solid ${showPopup.color}`,
-                display: "block",
+                boxShadow: isMobile ? "none" : `0 0 20px ${showPopup.color}`,
+                border: isMobile ? "none" : `2px solid ${showPopup.color}`,
+                backdropFilter: "blur(10px)",
+                animation: isMobile ? "fadeInMobile 0.5s ease-out" : "fadeIn 0.5s ease-out",
+                overflowY: isMobile ? "auto" : "visible",
+                overflowX: "hidden",
+                boxSizing: "border-box",
               }}
             >
-              <h2>{showPopup.title}</h2>
+              <style>
+                {`
+                  @keyframes fadeIn {
+                    from { opacity: 0; transform: translate(-50%, -60%); }
+                    to { opacity: 1; transform: translate(-50%, -50%); }
+                  }
+                  @keyframes fadeInMobile {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                  }
+                `}
+              </style>
+              <h2 style={{ textShadow: `0 0 5px ${showPopup.color}`, fontSize: isMobile ? "clamp(1.8rem, 4vw, 2.2rem)" : "clamp(1.5rem, 3vw, 1.8rem)", margin: isMobile ? "0 1rem 1rem" : "0 0 1rem" }}>
+                {showPopup.title}
+              </h2>
               <div
                 style={{
-                  border: `1px solid ${showPopup.color}`,
-                  backdropFilter: "blur(4px)",
-                  boxShadow: `0 0 20px ${showPopup.color}`,
+                  borderTop: `1px solid ${showPopup.color}`,
+                  margin: isMobile ? "0 1rem 1rem" : "1rem 0",
+                  boxShadow: `0 0 10px ${showPopup.color}`,
                 }}
               ></div>
-              <br></br>
-              <p>{showPopup.description}</p>
+              <p style={{ fontSize: isMobile ? "clamp(1.2rem, 3vw, 1.4rem)" : "clamp(1rem, 2vw, 1.2rem)", margin: isMobile ? "0 1rem 1rem" : "0 0 1rem" }}>
+                {showPopup.description}
+              </p>
               <a
                 href={showPopup.link}
                 target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   color: showPopup.color,
                   textDecoration: "none",
                   display: "block",
-                  margin: "20px 0",
+                  margin: isMobile ? "0 1rem 1.5rem" : "1.5rem 0",
+                  fontWeight: "bold",
+                  textShadow: `0 0 5px ${showPopup.color}`,
+                  fontSize: isMobile ? "clamp(1.2rem, 3vw, 1.4rem)" : "clamp(1rem, 2vw, 1.2rem)",
                 }}
               >
                 Visit Project
@@ -550,13 +612,18 @@ export default function App() {
               <button
                 onClick={closePopup}
                 style={{
-                  padding: "10px 20px",
-                  backgroundColor: "#C57175",
+                  padding: isMobile ? "10px 24px" : "8px 20px",
+                  backgroundColor: "#33dac6",
                   border: "none",
                   color: "#fff",
                   cursor: "pointer",
-                  borderRadius: "8px",
+                  borderRadius: "6px",
+                  boxShadow: "0 0 10px rgba(51, 218, 198, 0.5)",
+                  transition: "transform 0.3s ease",
+                  fontSize: isMobile ? "clamp(1.2rem, 3vw, 1.4rem)" : "clamp(1rem, 2vw, 1.2rem)",
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
               >
                 Close
               </button>
