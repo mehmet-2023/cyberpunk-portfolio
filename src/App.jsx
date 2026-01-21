@@ -32,85 +32,185 @@ const tutorialSteps = [
 
 const projects = [
   {
-    title: "Faster",
-    imageUrl: "/images/faster.png",
-    description:
-      "Faster: How fast are you? is an original game idea that has no other examples. The simple goal of the game is to click on a color other than the specified color. Since the game is fun and challenging to play, it has left a positive impact on users and the project continues.",
-    link: "https://fasterapp.vercel.app",
-    color: "#FFD15D",
-    category: "Games",
-    featured: true
+    "title": "Faster",
+    "imageUrl": "/images/faster.png",
+    "description": "Faster: How fast are you? is an original game idea that has no other examples. The simple goal of the game is to click on a color other than the specified color. Since the game is fun and challenging to play, it has left a positive impact on users and the project continues.",
+    "link": "https://play.google.com/store/apps/details?id=com.agentapps.fastertr",
+    "color": "#FFD15D",
+    "category": "Games",
+    "featured": true
   },
   {
-    title: "TheNest",
-    imageUrl: "/images/thenest.png",
-    description:
-      "The Nest is a multipurpose website aimed at all STEAM-related communities and individuals. It aims to increase communication and connections between STEAM enthusiasts while also creating a platform that offers resources and education.",
-    link: "https://the-nest.com.tr",
-    color: "#2323FF",
-    category: "Websites",
-    featured: true
+    "title": "Escape From Vardovia",
+    "imageUrl": "/images/faster.png",
+    "description": "Welcome to a revolutionary text adventure experience that breaks the boundaries of traditional gaming. Unlike any game you've played before, this AI-powered adventure offers an infinite universe of possibilities, where your imagination is the only limit.",
+    "link": "https://escapefromvardovia.onrender.com/",
+    "color": "#750709",
+    "category": "Games",
+    "featured": false
   },
   {
-    title: "NatrueGO",
-    imageUrl: "/images/naturego.png",
-    description:
-      "NatureGO is a mobile application designed to bring users closer to nature while fostering online community engagement. Using the phone's camera, users can scan flowers, which are then converted into credits for various features in the app. The app integrates AI to facilitate safe content interaction, ensuring an enjoyable experience for everyone.",
-    link: "https://github.com/mehmet-2023/NatureGO",
-    color: "#2cff05",
-    category: "Mobile Apps",
-    featured: true
+    "title": "TheNest",
+    "imageUrl": "/images/thenest.png",
+    "description": "The Nest is a multipurpose website aimed at all STEAM-related communities and individuals. It aims to increase communication and connections between STEAM enthusiasts while also creating a platform that offers resources and education.",
+    "link": "https://the-nest.com.tr",
+    "color": "#2323FF",
+    "category": "Websites",
+    "featured": true
   },
   {
-    title: "CTF (Coding The Future)",
-    imageUrl: "/images/ctf.jpg",
-    description:
-      "A platform where thinkers share program ideas and software developers collaborate to turn them into reality. The project was successfully adapted but not continued.",
-    link: "#",
-    color: "#C57175",
-    category: "Websites",
-    featured: false
+    "title": "HASALParlamento",
+    "imageUrl": "/images/thenest.png",
+    "description": "Website Designed For HASALParlamento Event.",
+    "link": "http://hasalparlamento.org",
+    "color": "#c70004",
+    "category": "Websites",
+    "featured": false
   },
   {
-    title: "MakineAvcıları",
-    imageUrl: "/images/makine_avcilari.jpg",
-    description:
-      "Mobile app version of a board game project that gamifies the subject of simple machines. Semi-finalist at Teknofest 2023.",
-    link: "",
-    color: "#808080",
-    category: "Mobile Apps",
-    featured: false
+    "title": "AMALÇalıştay",
+    "imageUrl": "/images/thenest.png",
+    "description": "Website Designed For AMAL Çalıştay Event.",
+    "link": "https://amalcalistay.com",
+    "color": "#c70004",
+    "category": "Websites",
+    "featured": false
   },
   {
-    title: "ROMANIA 14TH ROBOCHALLENGE",
-    imageUrl: "/images/robochallange.jpeg",
-    description:
-      "Competed in the 14th RoboChallange in Romania with three robots in the Mini sumo category, achieving 9th place worldwide.",
-    link: "https://www.bilokullari.com.tr/bahcelievler-bil-koleji/basari/uluslararasi-robochallenge-yarismasi-549",
-    color: "#8a00c4",
-    category: "Robotics",
-    featured: true
+    "title": "MUNDERES",
+    "imageUrl": "/images/thenest.png",
+    "description": "Website Designed For Munderes Event.",
+    "link": "https://munderes.org",
+    "color": "#d4d4d4",
+    "category": "Websites",
+    "featured": false
   },
   {
-    title: "2024 ROBOT - CRESCENDO SEASON",
-    imageUrl: "/images/2024.png",
-    description:
-      "Competed in Cezeri Başakşehir Off-Season with the 76111 2024 Robot, winning the Team Spirit and Dean's List awards.",
-    link: "https://www.thebluealliance.com/team/7611/2024",
-    color: "#ff8800",
-    category: "Robotics",
-    featured: false
+    "title": "ÇBALMUN",
+    "imageUrl": "/images/thenest.png",
+    "description": "Website Designed For ÇBALMUN Event.",
+    "link": "https://cbalmun.vercel.app",
+    "color": "#000ac7",
+    "category": "Websites",
+    "featured": false
   },
   {
-    title: "ICEBERG - REEFSCAPE SEASON",
-    imageUrl: "/images/iceberg.jpg",
-    description:
-      "Participated in Istanbul Bosphorus and South Florida Regional events with the 2025 Robot, reaching semi-finals in Bosphorus (3rd place) and achieving 17.3 EPA in South Florida.",
-    link: "https://www.thebluealliance.com/team/7611/2025",
-    color: "#33dac6",
-    category: "Robotics",
-    featured: false
+    "title": "AMAL FEST",
+    "imageUrl": "/images/thenest.png",
+    "description": "Website Designed For AMAL FEST Event.",
+    "link": "https://amal-fest.vercel.app/",
+    "color": "#d14804",
+    "category": "Websites",
+    "featured": false
   },
+  {
+    "title": "3D MUN TEMPLATE",
+    "imageUrl": "/images/thenest.png",
+    "description": "3D Interractive MUN Website Template.",
+    "link": "https://peak-mun-website.vercel.app/",
+    "color": "#ffc800",
+    "category": "Websites",
+    "featured": false
+  },
+  {
+    "title": "Agent Games Website",
+    "imageUrl": "/images/thenest.png",
+    "description": "Website Designed For Agent Games.",
+    "link": "https://agent-website-five.vercel.app/",
+    "color": "#33dac0",
+    "category": "Websites",
+    "featured": false
+  },
+  {
+    "title": "AMAL Dijital Sözlük",
+    "imageUrl": "/images/thenest.png",
+    "description": "Website Designed For Adnan Menderes Anatolian Highschool, Wealths Of Our Language Project.",
+    "link": "https://amaldijitalsozluk.vercel.app/",
+    "color": "#3571e8",
+    "category": "Websites",
+    "featured": false
+  },
+  {
+    "title": "Amal Hawks Website",
+    "imageUrl": "/images/thenest.png",
+    "description": "Website Designed For Amal Hawks Robotics Team.",
+    "link": "https://amalhawks7611.github.io",
+    "color": "#000ac7",
+    "category": "Websites",
+    "featured": false
+  },
+  {
+    "title": "Faster App Website",
+    "imageUrl": "/images/thenest.png",
+    "description": "Website Designed For My App, Faster.",
+    "link": "https://fasterapp.vercel.app/",
+    "color": "#FFD15D",
+    "category": "Websites",
+    "featured": false
+  },
+  {
+    "title": "NatrueGO",
+    "imageUrl": "/images/naturego.png",
+    "description": "NatureGO is a mobile application designed to bring users closer to nature while fostering online community engagement. Using the phone's camera, users can scan flowers, which are then converted into credits for various features in the app. The app integrates AI to facilitate safe content interaction, ensuring an enjoyable experience for everyone.",
+    "link": "https://github.com/mehmet-2023/NatureGO",
+    "color": "#2cff05",
+    "category": "Mobile Apps",
+    "featured": false
+  },
+  {
+    "title": "MakineAvcıları",
+    "imageUrl": "/images/makine_avcilari.jpg",
+    "description": "Mobile app version of a board game project that gamifies the subject of simple machines. Semi-finalist at Teknofest 2023.",
+    "link": "",
+    "color": "#808080",
+    "category": "Mobile Apps",
+    "featured": false
+  },
+  {
+    "title": "ROMANIA 14TH ROBOCHALLENGE",
+    "imageUrl": "/images/robochallange.jpeg",
+    "description": "Competed in the 14th RoboChallange in Romania with three robots in the Mini sumo category, achieving 9th place worldwide.",
+    "link": "https://www.bilokullari.com.tr/bahcelievler-bil-koleji/basari/uluslararasi-robochallenge-yarismasi-549",
+    "color": "#8a00c4",
+    "category": "Robotics",
+    "featured": true
+  },
+  {
+    "title": "2024 ROBOT - CRESCENDO SEASON",
+    "imageUrl": "/images/2024.png",
+    "description": "Competed in Cezeri Başakşehir Off-Season with the 76111 2024 Robot, winning the Team Spirit and Dean's List awards.",
+    "link": "https://www.thebluealliance.com/team/7611/2024",
+    "color": "#ff8800",
+    "category": "Robotics",
+    "featured": false
+  },
+  {
+    "title": "ICEBERG - REEFSCAPE SEASON",
+    "imageUrl": "/images/iceberg.jpg",
+    "description": "Participated in Istanbul Bosphorus and South Florida Regional events with the 2025 Robot, reaching semi-finals in Bosphorus (3rd place) and achieving 17.3 EPA in South Florida.",
+    "link": "https://www.thebluealliance.com/team/7611/2025",
+    "color": "#33dac6",
+    "category": "Robotics",
+    "featured": true
+  },
+  {
+    "title": "CTF (Coding The Future)",
+    "imageUrl": "/images/ctf.jpg",
+    "description": "A platform where thinkers share program ideas and software developers collaborate to turn them into reality. The project was successfully adapted but not continued.",
+    "link": "#",
+    "color": "#C57175",
+    "category": "Others",
+    "featured": false
+  },
+  {
+    "title": "FACEMASH",
+    "imageUrl": "/images/ctf.jpg",
+    "description": "Facemash is a platform made for fun, crashed on first day with over 50,000HITs and 400+ Active Guests.",
+    "link": "https://facemashreal.42web.io",
+    "color": "#4105f5",
+    "category": "Others",
+    "featured": false
+  }
 ];
 
 export default function App() {
@@ -281,7 +381,7 @@ export default function App() {
             />
           )}
           
-          {currentMessageIndex !== null && messages[currentMessageIndex] && (
+          {ready && currentMessageIndex !== null && messages[currentMessageIndex] && (
             <MessageOverlay
               key={currentMessageIndex}
               text={messages[currentMessageIndex].text}
